@@ -7,6 +7,7 @@ import snow.dependencies.WeatherForecastService;
 public class SnowRescueService {
 
 	public static final int LOW_TEMPERATURE = -1;
+	public static final int HIGH_SNOW_FALL = 4;
 
 	private final WeatherForecastService weatherForecastService;
 	private final MunicipalServices municipalServices;
@@ -29,7 +30,7 @@ public class SnowRescueService {
 		if (weatherForecastService.getAverageTemperatureInCelsius() <= LOW_TEMPERATURE) {
 			municipalServices.sendSander();
 		}
-		if (weatherForecastService.getSnowFallHeightInMM() >= 4) {
+		if (weatherForecastService.getSnowFallHeightInMM() >= HIGH_SNOW_FALL) {
 			municipalServices.sendSnowplow();
 		}
 	}

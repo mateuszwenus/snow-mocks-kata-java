@@ -83,7 +83,7 @@ public class SnowRescueServiceTest {
 	public void should_send_snowplow_when_snow_fall_is_high() {
 		// given
 		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
-		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(4);
+		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(SnowRescueService.HIGH_SNOW_FALL);
 		// when
 		snowRescueService.checkForecastAndRescue();
 		// then
@@ -94,7 +94,7 @@ public class SnowRescueServiceTest {
 	public void should_not_send_snowplow_when_snow_fall_is_low() {
 		// given
 		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
-		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(3);
+		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(SnowRescueService.HIGH_SNOW_FALL - 1);
 		// when
 		snowRescueService.checkForecastAndRescue();
 		// then
