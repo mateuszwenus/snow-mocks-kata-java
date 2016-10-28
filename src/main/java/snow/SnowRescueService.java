@@ -32,13 +32,17 @@ public class SnowRescueService {
 			municipalServices.sendSander();
 		}
 		if (weatherForecastService.getSnowFallHeightInMM() >= HIGH_SNOW_FALL) {
-			boolean snowplowSuccessfull = false;
-			while (!snowplowSuccessfull) {
-				try {
-					municipalServices.sendSnowplow();
-					snowplowSuccessfull = true;
-				} catch (SnowplowMalfunctioningException e) {
-				}
+			sendSnowplow();
+		}
+	}
+
+	private void sendSnowplow() {
+		boolean snowplowSuccessfull = false;
+		while (!snowplowSuccessfull) {
+			try {
+				municipalServices.sendSnowplow();
+				snowplowSuccessfull = true;
+			} catch (SnowplowMalfunctioningException e) {
 			}
 		}
 	}
