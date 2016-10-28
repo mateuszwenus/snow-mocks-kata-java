@@ -144,7 +144,7 @@ public class SnowRescueServiceTest {
 	public void should_send_two_snowplow_when_snow_fall_is_very_high() {
 		// given
 		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
-		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(6);
+		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(SnowRescueService.VERY_HIGH_SNOW_FALL);
 		// when
 		snowRescueService.checkForecastAndRescue();
 		// then

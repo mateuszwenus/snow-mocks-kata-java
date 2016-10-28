@@ -9,6 +9,7 @@ public class SnowRescueService {
 
 	public static final int LOW_TEMPERATURE = -1;
 	public static final int HIGH_SNOW_FALL = 4;
+	public static final int VERY_HIGH_SNOW_FALL = 6;
 	public static final int MAX_SNOWPLOW_ATTEMPTS = 10;
 
 	private final WeatherForecastService weatherForecastService;
@@ -32,7 +33,7 @@ public class SnowRescueService {
 		if (weatherForecastService.getAverageTemperatureInCelsius() <= LOW_TEMPERATURE) {
 			municipalServices.sendSander();
 		}
-		if (weatherForecastService.getSnowFallHeightInMM() >= 6) {
+		if (weatherForecastService.getSnowFallHeightInMM() >= VERY_HIGH_SNOW_FALL) {
 			sendSnowplow();
 		}
 		if (weatherForecastService.getSnowFallHeightInMM() >= HIGH_SNOW_FALL) {
