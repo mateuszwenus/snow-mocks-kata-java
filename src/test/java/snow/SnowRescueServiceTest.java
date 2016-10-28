@@ -1,7 +1,9 @@
 package snow;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -12,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import snow.dependencies.MunicipalServices;
 import snow.dependencies.PressService;
+import snow.dependencies.SnowplowMalfunctioningException;
 import snow.dependencies.WeatherForecastService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -89,7 +92,7 @@ public class SnowRescueServiceTest {
 		// then
 		verify(municipalServices).sendSnowplow();
 	}
-	
+
 	@Test
 	public void should_not_send_snowplow_when_snow_fall_is_low() {
 		// given
@@ -99,5 +102,17 @@ public class SnowRescueServiceTest {
 		snowRescueService.checkForecastAndRescue();
 		// then
 		verify(municipalServices, never()).sendSnowplow();
+	}
+
+	@Test
+	public void should_send_second_snowplow_if_first_malfunctions() {
+		// given
+		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
+		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(SnowRescueService.HIGH_SNOW_FALL);
+		doThrow(SnowplowMalfunctioningException.class).doNothing().when(municipalServices).sendSnowplow();
+		// when
+		snowRescueService.checkForecastAndRescue();
+		// then
+		verify(municipalServices, times(2)).sendSnowplow();
 	}
 }
