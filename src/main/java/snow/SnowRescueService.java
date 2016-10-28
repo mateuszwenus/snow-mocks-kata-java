@@ -16,12 +16,13 @@ public class SnowRescueService {
 
 	private final WeatherForecastService weatherForecastService;
 	private final MunicipalServices municipalServices;
+	private final PressService pressService;
 
 	public SnowRescueService(WeatherForecastService weatherForecastService, MunicipalServices municipalServices,
 			PressService pressService) {
 		this.weatherForecastService = checkNotNull(weatherForecastService, "weatherForecastService");
 		this.municipalServices = checkNotNull(municipalServices, "municipalServices");
-		checkNotNull(pressService, "pressService");
+		this.pressService = checkNotNull(pressService, "pressService");
 	}
 
 	private <T> T checkNotNull(T variableToCheck, String variableName) {
@@ -44,6 +45,7 @@ public class SnowRescueService {
 	private void handleCriticalWeatherConditions() {
 		sendSnowplows(3);
 		municipalServices.sendSander();
+		pressService.sendWeatherAlert();
 	}
 
 	private void handleNoncriticalWeatherConditions(int averageTemperatureInCelsius, int snowFallHeightInMM) {
