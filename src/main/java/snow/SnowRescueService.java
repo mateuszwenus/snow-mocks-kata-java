@@ -43,6 +43,7 @@ public class SnowRescueService {
 
 	private void handleCriticalWeatherConditions() {
 		sendSnowplows(3);
+		municipalServices.sendSander();
 	}
 
 	private void handleNoncriticalWeatherConditions(int averageTemperatureInCelsius, int snowFallHeightInMM) {

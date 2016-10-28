@@ -162,4 +162,16 @@ public class SnowRescueServiceTest {
 		// then
 		verify(municipalServices, times(3)).sendSnowplow();
 	}
+
+	@Test
+	public void should_send_sander_in_case_of_critical_conditions() {
+		// given
+		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
+		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(SnowRescueService.CRITICAL_SNOW_FALL);
+		when(weatherForecastService.getAverageTemperatureInCelsius()).thenReturn(SnowRescueService.CRITICAL_TEMPERATURE);
+		// when
+		snowRescueService.checkForecastAndRescue();
+		// then
+		verify(municipalServices).sendSander();
+	}
 }
