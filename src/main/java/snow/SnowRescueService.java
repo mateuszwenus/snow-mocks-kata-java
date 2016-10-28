@@ -30,25 +30,38 @@ public class SnowRescueService {
 	}
 
 	public void checkForecastAndRescue() {
-		if (weatherForecastService.getAverageTemperatureInCelsius() <= LOW_TEMPERATURE) {
+		int averageTemperatureInCelsius = weatherForecastService.getAverageTemperatureInCelsius();
+		int snowFallHeightInMM = weatherForecastService.getSnowFallHeightInMM();
+		if (isLowTemperature(averageTemperatureInCelsius)) {
 			municipalServices.sendSander();
 		}
-		if (weatherForecastService.getSnowFallHeightInMM() >= VERY_HIGH_SNOW_FALL) {
-			sendSnowplow();
-		}
-		if (weatherForecastService.getSnowFallHeightInMM() >= HIGH_SNOW_FALL) {
-			sendSnowplow();
+		if (isVeryHighSnowFall(snowFallHeightInMM)) {
+			sendSnowplows(2);
+		} else if (isHighSnowFall(snowFallHeightInMM)) {
+			sendSnowplows(1);
 		}
 	}
 
-	private void sendSnowplow() {
+	private boolean isLowTemperature(int averageTemperatureInCelsius) {
+		return averageTemperatureInCelsius <= LOW_TEMPERATURE;
+	}
+
+	private boolean isVeryHighSnowFall(int snowFallHeightInMM) {
+		return snowFallHeightInMM >= VERY_HIGH_SNOW_FALL;
+	}
+
+	private boolean isHighSnowFall(int snowFallHeightInMM) {
+		return snowFallHeightInMM >= HIGH_SNOW_FALL;
+	}
+
+	private void sendSnowplows(int numberOfSnowplowsToSend) {
 		int attempt = 0;
-		boolean snowplowSuccessfull = false;
-		while (!snowplowSuccessfull && attempt < MAX_SNOWPLOW_ATTEMPTS) {
+		int numberOfSuccessfullSnowplows = 0;
+		while (numberOfSuccessfullSnowplows < numberOfSnowplowsToSend && attempt < MAX_SNOWPLOW_ATTEMPTS) {
 			try {
 				attempt++;
 				municipalServices.sendSnowplow();
-				snowplowSuccessfull = true;
+				numberOfSuccessfullSnowplows++;
 			} catch (SnowplowMalfunctioningException e) {
 			}
 		}
