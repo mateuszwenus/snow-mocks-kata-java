@@ -34,10 +34,18 @@ public class SnowRescueService {
 	public void checkForecastAndRescue() {
 		int averageTemperatureInCelsius = weatherForecastService.getAverageTemperatureInCelsius();
 		int snowFallHeightInMM = weatherForecastService.getSnowFallHeightInMM();
-		if (averageTemperatureInCelsius <= CRITICAL_TEMPERATURE && snowFallHeightInMM >= CRITICAL_SNOW_FALL) {
-			sendSnowplows(3);
-			return;
+		if (isCriticalWeatherConditions(averageTemperatureInCelsius, snowFallHeightInMM)) {
+			handleCriticalWeatherConditions();
+		} else {
+			handleNoncriticalWeatherConditions(averageTemperatureInCelsius, snowFallHeightInMM);
 		}
+	}
+
+	private void handleCriticalWeatherConditions() {
+		sendSnowplows(3);
+	}
+
+	private void handleNoncriticalWeatherConditions(int averageTemperatureInCelsius, int snowFallHeightInMM) {
 		if (isLowTemperature(averageTemperatureInCelsius)) {
 			municipalServices.sendSander();
 		}
@@ -46,6 +54,10 @@ public class SnowRescueService {
 		} else if (isHighSnowFall(snowFallHeightInMM)) {
 			sendSnowplows(1);
 		}
+	}
+
+	private boolean isCriticalWeatherConditions(int averageTemperatureInCelsius, int snowFallHeightInMM) {
+		return averageTemperatureInCelsius <= CRITICAL_TEMPERATURE && snowFallHeightInMM >= CRITICAL_SNOW_FALL;
 	}
 
 	private boolean isLowTemperature(int averageTemperatureInCelsius) {
