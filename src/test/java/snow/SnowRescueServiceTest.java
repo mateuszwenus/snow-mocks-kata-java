@@ -1,6 +1,7 @@
 package snow;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -65,5 +66,16 @@ public class SnowRescueServiceTest {
 		snowRescueService.checkForecastAndRescue();
 		// then
 		verify(municipalServices).sendSander();
+	}
+
+	@Test
+	public void should_not_send_sander_when_temperature_is_not_low() {
+		// given
+		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
+		when(weatherForecastService.getAverageTemperatureInCelsius()).thenReturn(0);
+		// when
+		snowRescueService.checkForecastAndRescue();
+		// then
+		verify(municipalServices, never()).sendSander();
 	}
 }

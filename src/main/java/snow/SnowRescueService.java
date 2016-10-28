@@ -6,11 +6,12 @@ import snow.dependencies.WeatherForecastService;
 
 public class SnowRescueService {
 
+	private final WeatherForecastService weatherForecastService;
 	private final MunicipalServices municipalServices;
 
 	public SnowRescueService(WeatherForecastService weatherForecastService, MunicipalServices municipalServices,
 			PressService pressService) {
-		checkNotNull(weatherForecastService, "weatherForecastService");
+		this.weatherForecastService = checkNotNull(weatherForecastService, "weatherForecastService");
 		this.municipalServices = checkNotNull(municipalServices, "municipalServices");
 		checkNotNull(pressService, "pressService");
 	}
@@ -23,7 +24,9 @@ public class SnowRescueService {
 	}
 
 	public void checkForecastAndRescue() {
-		municipalServices.sendSander();
+		if (weatherForecastService.getAverageTemperatureInCelsius() < 0) {
+			municipalServices.sendSander();
+		}
 	}
 
 }
