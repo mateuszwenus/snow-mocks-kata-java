@@ -32,6 +32,10 @@ public class SnowRescueService {
 	public void checkForecastAndRescue() {
 		int averageTemperatureInCelsius = weatherForecastService.getAverageTemperatureInCelsius();
 		int snowFallHeightInMM = weatherForecastService.getSnowFallHeightInMM();
+		if (averageTemperatureInCelsius <= -11 && snowFallHeightInMM >= 11) {
+			sendSnowplows(3);
+			return;
+		}
 		if (isLowTemperature(averageTemperatureInCelsius)) {
 			municipalServices.sendSander();
 		}
