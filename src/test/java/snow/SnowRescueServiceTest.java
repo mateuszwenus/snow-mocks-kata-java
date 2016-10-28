@@ -61,7 +61,7 @@ public class SnowRescueServiceTest {
 	public void should_send_sander_when_temperature_is_low() {
 		// given
 		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
-		when(weatherForecastService.getAverageTemperatureInCelsius()).thenReturn(-1);
+		when(weatherForecastService.getAverageTemperatureInCelsius()).thenReturn(SnowRescueService.LOW_TEMPERATURE);
 		// when
 		snowRescueService.checkForecastAndRescue();
 		// then
@@ -72,7 +72,7 @@ public class SnowRescueServiceTest {
 	public void should_not_send_sander_when_temperature_is_not_low() {
 		// given
 		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
-		when(weatherForecastService.getAverageTemperatureInCelsius()).thenReturn(0);
+		when(weatherForecastService.getAverageTemperatureInCelsius()).thenReturn(SnowRescueService.LOW_TEMPERATURE + 1);
 		// when
 		snowRescueService.checkForecastAndRescue();
 		// then

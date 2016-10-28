@@ -6,6 +6,8 @@ import snow.dependencies.WeatherForecastService;
 
 public class SnowRescueService {
 
+	public static final int LOW_TEMPERATURE = -1;
+
 	private final WeatherForecastService weatherForecastService;
 	private final MunicipalServices municipalServices;
 
@@ -24,7 +26,7 @@ public class SnowRescueService {
 	}
 
 	public void checkForecastAndRescue() {
-		if (weatherForecastService.getAverageTemperatureInCelsius() < 0) {
+		if (weatherForecastService.getAverageTemperatureInCelsius() <= LOW_TEMPERATURE) {
 			municipalServices.sendSander();
 		}
 	}
