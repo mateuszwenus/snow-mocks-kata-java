@@ -164,7 +164,7 @@ public class SnowRescueServiceTest {
 	}
 
 	@Test
-	public void should_send_sander_in_case_of_critical_conditions() {
+	public void should_send_sander_in_case_of_critical_weather_conditions() {
 		// given
 		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
 		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(SnowRescueService.CRITICAL_SNOW_FALL);
