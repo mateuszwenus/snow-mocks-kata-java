@@ -1,6 +1,8 @@
 package snow;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,5 +54,16 @@ public class SnowRescueServiceTest {
 		} catch (NullPointerException expected) {
 			// then
 		}
+	}
+
+	@Test
+	public void should_send_sander_when_temperature_is_low() {
+		// given
+		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
+		when(weatherForecastService.getAverageTemperatureInCelsius()).thenReturn(-1);
+		// when
+		snowRescueService.checkForecastAndRescue();
+		// then
+		verify(municipalServices).sendSander();
 	}
 }
