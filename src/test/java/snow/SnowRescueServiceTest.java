@@ -115,4 +115,16 @@ public class SnowRescueServiceTest {
 		// then
 		verify(municipalServices, times(2)).sendSnowplow();
 	}
+
+	@Test
+	public void should_send_third_snowplow_if_first_and_second_mulfunction() {
+		// given
+		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
+		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(SnowRescueService.HIGH_SNOW_FALL);
+		doThrow(SnowplowMalfunctioningException.class).doThrow(SnowplowMalfunctioningException.class).doNothing().when(municipalServices).sendSnowplow();
+		// when
+		snowRescueService.checkForecastAndRescue();
+		// then
+		verify(municipalServices, times(3)).sendSnowplow();
+	}
 }
