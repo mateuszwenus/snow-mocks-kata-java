@@ -9,10 +9,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import snow.dependencies.MunicipalServices;
 import snow.dependencies.PressService;
+import snow.dependencies.WeatherForecastService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SnowRescueServiceTest {
 
+	@Mock
+	private WeatherForecastService weatherForecastService;
 	@Mock
 	private MunicipalServices municipalServices;
 	@Mock
@@ -23,6 +26,17 @@ public class SnowRescueServiceTest {
 		try {
 			// when
 			new SnowRescueService(null, municipalServices, pressService);
+			fail("should throw NullPointerException");
+		} catch (NullPointerException expected) {
+			// then
+		}
+	}
+
+	@Test
+	public void should_throw_exception_when_MunicipalServices_is_null() {
+		try {
+			// when
+			new SnowRescueService(weatherForecastService, null, pressService);
 			fail("should throw NullPointerException");
 		} catch (NullPointerException expected) {
 			// then

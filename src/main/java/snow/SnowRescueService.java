@@ -10,6 +10,9 @@ public class SnowRescueService {
 		if (weatherForecastService == null) {
 			throw new NullPointerException("weatherForecastService must not be null");
 		}
+		if (municipalServices == null) {
+			throw new NullPointerException("municipalServices must not be null");
+		}
 	}
 
 	public void checkForecastAndRescue() {
