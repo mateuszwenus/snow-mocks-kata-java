@@ -6,15 +6,16 @@ import snow.dependencies.WeatherForecastService;
 
 public class SnowRescueService {
 
-	public SnowRescueService(WeatherForecastService weatherForecastService, MunicipalServices municipalServices, PressService pressService) {
-		if (weatherForecastService == null) {
-			throw new NullPointerException("weatherForecastService must not be null");
-		}
-		if (municipalServices == null) {
-			throw new NullPointerException("municipalServices must not be null");
-		}
-		if (pressService == null) {
-			throw new NullPointerException("pressService must not be null");
+	public SnowRescueService(WeatherForecastService weatherForecastService, MunicipalServices municipalServices,
+			PressService pressService) {
+		checkNotNull(weatherForecastService, "weatherForecastService");
+		checkNotNull(municipalServices, "municipalServices");
+		checkNotNull(pressService, "pressService");
+	}
+
+	private void checkNotNull(Object variableToCheck, String variableName) {
+		if (variableToCheck == null) {
+			throw new NullPointerException(variableName + " must not be null");
 		}
 	}
 
