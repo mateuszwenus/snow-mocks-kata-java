@@ -29,7 +29,9 @@ public class SnowRescueService {
 		if (weatherForecastService.getAverageTemperatureInCelsius() <= LOW_TEMPERATURE) {
 			municipalServices.sendSander();
 		}
-		municipalServices.sendSnowplow();
+		if (weatherForecastService.getSnowFallHeightInMM() >= 4) {
+			municipalServices.sendSnowplow();
+		}
 	}
 
 }
