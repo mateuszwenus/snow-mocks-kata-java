@@ -127,4 +127,16 @@ public class SnowRescueServiceTest {
 		// then
 		verify(municipalServices, times(3)).sendSnowplow();
 	}
+
+	@Test
+	public void should_not_loop_forever_when_all_snowplows_malfunction() {
+		// given
+		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
+		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(SnowRescueService.HIGH_SNOW_FALL);
+		doThrow(SnowplowMalfunctioningException.class).when(municipalServices).sendSnowplow();
+		// when
+		snowRescueService.checkForecastAndRescue();
+		// then
+		verify(municipalServices, times(10)).sendSnowplow();
+	}
 }

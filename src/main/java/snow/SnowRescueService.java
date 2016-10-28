@@ -37,9 +37,12 @@ public class SnowRescueService {
 	}
 
 	private void sendSnowplow() {
+		int maxAttempts = 10;
+		int attempt = 0;
 		boolean snowplowSuccessfull = false;
-		while (!snowplowSuccessfull) {
+		while (!snowplowSuccessfull && attempt < maxAttempts) {
 			try {
+				attempt++;
 				municipalServices.sendSnowplow();
 				snowplowSuccessfull = true;
 			} catch (SnowplowMalfunctioningException e) {
