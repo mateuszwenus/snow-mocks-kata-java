@@ -139,4 +139,15 @@ public class SnowRescueServiceTest {
 		// then
 		verify(municipalServices, times(SnowRescueService.MAX_SNOWPLOW_ATTEMPTS)).sendSnowplow();
 	}
+
+	@Test
+	public void should_send_two_snowplow_when_snow_fall_is_very_high() {
+		// given
+		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
+		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(6);
+		// when
+		snowRescueService.checkForecastAndRescue();
+		// then
+		verify(municipalServices, times(2)).sendSnowplow();
+	}
 }
