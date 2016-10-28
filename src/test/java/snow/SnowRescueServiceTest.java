@@ -42,4 +42,15 @@ public class SnowRescueServiceTest {
 			// then
 		}
 	}
+
+	@Test
+	public void should_throw_exception_when_PressService_is_null() {
+		try {
+			// when
+			new SnowRescueService(weatherForecastService, municipalServices, null);
+			fail("should throw NullPointerException");
+		} catch (NullPointerException expected) {
+			// then
+		}
+	}
 }
