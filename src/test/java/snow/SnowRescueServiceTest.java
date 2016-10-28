@@ -137,6 +137,6 @@ public class SnowRescueServiceTest {
 		// when
 		snowRescueService.checkForecastAndRescue();
 		// then
-		verify(municipalServices, times(10)).sendSnowplow();
+		verify(municipalServices, times(SnowRescueService.MAX_SNOWPLOW_ATTEMPTS)).sendSnowplow();
 	}
 }

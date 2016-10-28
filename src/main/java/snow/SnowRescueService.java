@@ -9,6 +9,7 @@ public class SnowRescueService {
 
 	public static final int LOW_TEMPERATURE = -1;
 	public static final int HIGH_SNOW_FALL = 4;
+	public static final int MAX_SNOWPLOW_ATTEMPTS = 10;
 
 	private final WeatherForecastService weatherForecastService;
 	private final MunicipalServices municipalServices;
@@ -37,10 +38,9 @@ public class SnowRescueService {
 	}
 
 	private void sendSnowplow() {
-		int maxAttempts = 10;
 		int attempt = 0;
 		boolean snowplowSuccessfull = false;
-		while (!snowplowSuccessfull && attempt < maxAttempts) {
+		while (!snowplowSuccessfull && attempt < MAX_SNOWPLOW_ATTEMPTS) {
 			try {
 				attempt++;
 				municipalServices.sendSnowplow();
