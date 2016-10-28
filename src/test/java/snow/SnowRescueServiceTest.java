@@ -155,8 +155,8 @@ public class SnowRescueServiceTest {
 	public void should_send_three_snowplows_in_case_of_critical_weather_conditions() {
 		// given
 		SnowRescueService snowRescueService = new SnowRescueService(weatherForecastService, municipalServices, pressService);
-		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(11);
-		when(weatherForecastService.getAverageTemperatureInCelsius()).thenReturn(-11);
+		when(weatherForecastService.getSnowFallHeightInMM()).thenReturn(SnowRescueService.CRITICAL_SNOW_FALL);
+		when(weatherForecastService.getAverageTemperatureInCelsius()).thenReturn(SnowRescueService.CRITICAL_TEMPERATURE);
 		// when
 		snowRescueService.checkForecastAndRescue();
 		// then

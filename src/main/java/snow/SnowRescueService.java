@@ -8,8 +8,10 @@ import snow.dependencies.WeatherForecastService;
 public class SnowRescueService {
 
 	public static final int LOW_TEMPERATURE = -1;
+	public static final int CRITICAL_TEMPERATURE = -11;
 	public static final int HIGH_SNOW_FALL = 4;
 	public static final int VERY_HIGH_SNOW_FALL = 6;
+	public static final int CRITICAL_SNOW_FALL = 11;
 	public static final int MAX_SNOWPLOW_ATTEMPTS = 10;
 
 	private final WeatherForecastService weatherForecastService;
@@ -32,7 +34,7 @@ public class SnowRescueService {
 	public void checkForecastAndRescue() {
 		int averageTemperatureInCelsius = weatherForecastService.getAverageTemperatureInCelsius();
 		int snowFallHeightInMM = weatherForecastService.getSnowFallHeightInMM();
-		if (averageTemperatureInCelsius <= -11 && snowFallHeightInMM >= 11) {
+		if (averageTemperatureInCelsius <= CRITICAL_TEMPERATURE && snowFallHeightInMM >= CRITICAL_SNOW_FALL) {
 			sendSnowplows(3);
 			return;
 		}
